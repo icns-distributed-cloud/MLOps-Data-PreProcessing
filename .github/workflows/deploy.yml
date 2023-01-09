@@ -1,0 +1,15 @@
+name: Data-Preprocessing CICD
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Temporarily save build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifact
+          path: target
+          retention-days: 0
