@@ -43,4 +43,4 @@ jobs:
           script:  |
             docker rm -f ${{ secrets.MLOPS_DP_CONTAINER_NAME }}
             docker rmi ${{ secrets.MLOPS_DP_DOCKER_REPO }}
-            docker run -d --name ${{ secrets.MLOPS_DP_CONTAINER_NAME }} -p 2375:2375 ${{ secrets.MLOPS_DP_DOCKER_REPO }}
+            docker run -d --name ${{ secrets.MLOPS_DP_CONTAINER_NAME }} -p 8000:8000 ${{ secrets.MLOPS_DP_DOCKER_REPO }}
