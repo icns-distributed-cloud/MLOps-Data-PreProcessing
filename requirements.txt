@@ -2,3 +2,4 @@ fastapi
 uvicorn
 pandas
 statsmodels==0.13.5
+httpx
