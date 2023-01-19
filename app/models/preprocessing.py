@@ -9,7 +9,7 @@ class PreprocessingIn(BaseModel):
 
 
     origin_data_path: str = Field(..., example="1/data.csv")
-    colums: list = Field(..., example=["load"])
+    columns: list = Field(..., example=["load"])
     db_id: int = Field(..., example=1)
 
 
@@ -19,5 +19,5 @@ class PreprocessingOut(BaseModel):
 
     origin_data_path: str = Field(..., example="1/data.csv")
     pre_data_path: str = Field(..., example="1/data.csv")
-    colums: list = Field(..., example=["load"])
+    columns: list = Field(..., example=["load"])
     db_id: int = Field(..., example=1)

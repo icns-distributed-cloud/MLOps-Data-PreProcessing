@@ -2,6 +2,7 @@ from fastapi import Request
 
 from app.models.exceptions import *
 from app.internal.utils import *
+from app.internal.restAPI import *
 
 import pandas as pd
 import math
@@ -9,7 +10,7 @@ import math
 from statsmodels.tsa.api import VAR
 
 
-def interpolate(data, columns, pre_data_root_directory, data_path):
+def interpolate(data, columns, pre_data_root_directory, data_path, db_id):
     try:
         processed_columns = []
         processed_data = {}
@@ -28,9 +29,14 @@ def interpolate(data, columns, pre_data_root_directory, data_path):
 
         df = pd.DataFrame(processed_data, columns=processed_columns)
 
-        save_csv_date(df, f'{pre_data_root_directory}/{data_path}')
+        save_csv_data(df, f'{pre_data_root_directory}/{data_path}')
+        save_mini_data(f'{pre_data_root_directory}/{data_path}')
+
+        r = update_pre_status(db_id, f'{pre_data_root_directory}/{data_path}', data_path, 1)
+
                 
     except Exception as e:
+        print(222)
         raise e
 
     return df, True
@@ -46,7 +52,7 @@ def pearson(data, columns, pre_data_root_directory, data_path):
         result_data = {}
 
         columns = ['load', 'year']
-        origin_data = pd.read_csv(f'data/origin/data.csv')
+        origin_data = data
         origin_columns = origin_data.columns
 
         null_index_dict = {}
@@ -112,7 +118,7 @@ def pearson(data, columns, pre_data_root_directory, data_path):
                 res_df[column] = fillna_origin_data[column]
                 pass
             
-        save_csv_date(res_df, f'{pre_data_root_directory}/{data_path}')
+        save_csv_data(res_df, f'{pre_data_root_directory}/{data_path}')
 
     except Exception as e:
         raise APIException(ex=e)

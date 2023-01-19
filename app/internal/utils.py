@@ -19,12 +19,11 @@ def load_csv_data(filename):
     return df
 
 
-def save_csv_date(df, filename):
+def save_csv_data(df, filename):
     try:
         df.to_csv(filename, index=False)
     except Exception as e:
         raise APIException(ex=e)
-
     return filename, True
 
 
@@ -44,3 +43,22 @@ def get_pearsonr(data, columns):
     for column in columns:
         for origin_column in origin_columns:
             pearsonr(data[column], data[origin_column])
+
+
+def save_mini_data(filename, nrows=50):
+    try:
+        path, file = os.path.split(filename)
+        mini_path = change_path(path, 'pre', 'mini')
+ 
+        df = pd.read_csv(filename, nrows=nrows)
+        
+        save_csv_data(df, f'{mini_path}/{file}')
+    except Exception as e:
+        raise APIException(ex=e)
+    return df
+
+
+def change_path(path, source, target):
+    path = path.replace(source, target)
+
+    return path

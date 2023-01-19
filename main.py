@@ -7,6 +7,7 @@ from fastapi import FastAPI
 
 from app.common.config import conf
 from app.routers import missing_value
+from app.routers import data
 from app.models.response import *
 from app.models.exceptions import *
 
@@ -18,10 +19,9 @@ def create_app():
         docs_url='/docs'
     )
 
-    
-
     # routers
     app.include_router(missing_value.router)
+    app.include_router(data.router)
     app.config = conf()
 
     app.add_exception_handler(HTTPException, http_exception_handler)
@@ -33,15 +33,9 @@ def create_app():
         allow_credentials=True,
         allow_methods=['*'],
         allow_headers=['*']
-
     )
 
-
     return app
-
-
-
-
 
 
 app = create_app()

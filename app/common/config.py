@@ -20,6 +20,9 @@ class LocalConfig(Config):
     origin_data_root_directory: str = 'data/origin'
     pre_data_root_directory: str = 'data/pre'
 
+    backend_url: str = '163.180.117.186'
+    backend_port: int = 18088
+
 
 @dataclass
 class ProdConfig(Config):
@@ -28,6 +31,9 @@ class ProdConfig(Config):
     pre_data_root_directory: str = 'data/pre'
     # origin_data_root_directory: str = 'data.icnslab.net/origin'
     # pre_data_root_directory: str = 'data.icnslab.net/pre'
+
+    backend_url: str = '163.180.117.186'
+    backend_port: int = 18088
 
 
 def conf():
