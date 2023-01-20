@@ -46,21 +46,23 @@ def get_pearsonr(data, columns):
             pearsonr(data[column], data[origin_column])
 
 
-def save_mini_data(file_path, source, target, db_id, nrows=50):
+def save_mini_data(file_path, source, target, db_id, nrows=50, is_origin=False):
     try:
         path, file_name = os.path.split(file_path)
         save_path = change_path(path, source, target)
  
         df = pd.read_csv(file_path, nrows=nrows)
         
-
-        save_csv_data(df, f'{save_path}/{file_name}')
+        if is_origin == True:
+            save_csv_data(df, f'{save_path}/{db_id}_{file_name}')
+        else:
+            save_csv_data(df, f'{save_path}/{file_name}')
         mini_path = f'{save_path}/{file_name}'
 
         mini_path = mini_path.replace('./', '')
         update_readpre_path(db_id, mini_path)
 
-
+        print(mini_path)
     except Exception as e:
         raise APIException(ex=e)
     return mini_path
