@@ -45,18 +45,18 @@ def get_pearsonr(data, columns):
             pearsonr(data[column], data[origin_column])
 
 
-def save_mini_data(filename, nrows=50):
+def save_mini_data(filename, source, target, nrows=50):
     try:
         path, file = os.path.split(filename)
-        mini_path = change_path(path, 'origin', 'mini')
+        save_path = change_path(path, source, target)
  
         df = pd.read_csv(filename, nrows=nrows)
         
-        
-        save_csv_data(df, f'{mini_path}/{file}')
+
+        save_csv_data(df, f'{save_path}/{file}')
     except Exception as e:
         raise APIException(ex=e)
-    return f'{mini_path}/{file}'
+    return f'{save_path}/{file}'
 
 
 def change_path(path, source, target):

@@ -30,11 +30,10 @@ def interpolate(data, columns, pre_data_root_directory, data_path, db_id):
         df = pd.DataFrame(processed_data, columns=processed_columns)
 
         save_csv_data(df, f'{pre_data_root_directory}/{data_path}')
-        save_mini_data(f'{pre_data_root_directory}/{data_path}')
+        save_path = save_mini_data(f'{pre_data_root_directory}/{data_path}', source='pre', target='mini')
 
-        r = update_pre_status(db_id, f'{pre_data_root_directory}/{data_path}', data_path, 1)
-
-                
+        r = update_pre_status(db_id, f'{save_path}', data_path, 1)
+        
     except Exception as e:
         print(222)
         raise e
@@ -119,9 +118,9 @@ def pearson(data, columns, pre_data_root_directory, data_path, db_id):
                 pass
             
         save_csv_data(res_df, f'{pre_data_root_directory}/{data_path}')
-        save_mini_data(f'{pre_data_root_directory}/{data_path}')
+        save_path = save_mini_data(f'{pre_data_root_directory}/{data_path}', source='pre', target='mini')
 
-        r = update_pre_status(db_id, f'{pre_data_root_directory}/{data_path}', data_path, 1)
+        r = update_pre_status(db_id, f'{save_path}', data_path, 1)
 
     except Exception as e:
         raise APIException(ex=e)
