@@ -10,8 +10,10 @@ import math
 from statsmodels.tsa.api import VAR
 
 
-def interpolate(data, columns, pre_data_root_directory, data_path, db_id):
+def interpolate(data, columns, pre_data_root_directory, data_name, db_id):
     try:
+
+
         processed_columns = []
         processed_data = {}
 
@@ -29,10 +31,14 @@ def interpolate(data, columns, pre_data_root_directory, data_path, db_id):
 
         df = pd.DataFrame(processed_data, columns=processed_columns)
 
-        save_csv_data(df, f'{pre_data_root_directory}/{data_path}')
-        save_path = save_mini_data(f'{pre_data_root_directory}/{data_path}', source='pre', target='mini')
+        pre_data_path = f'{pre_data_root_directory}/{data_name}'
 
-        r = update_pre_status(db_id, f'{save_path}', data_path, 1)
+        save_csv_data(df, pre_data_path)
+        save_path = save_mini_data(pre_data_path, source='pre', target='mini', db_id=db_id)
+
+        pre_data_path = pre_data_path.replace('./', '')
+
+        r = update_pre_status(db_id, f'{pre_data_path}', data_name, 1)
         
     except Exception as e:
         print(222)
@@ -42,7 +48,7 @@ def interpolate(data, columns, pre_data_root_directory, data_path, db_id):
 
 
 
-def pearson(data, columns, pre_data_root_directory, data_path, db_id):
+def pearson(data, columns, pre_data_root_directory, data_name, db_id):
     try:
   
         ar = 10
@@ -117,10 +123,14 @@ def pearson(data, columns, pre_data_root_directory, data_path, db_id):
                 res_df[column] = fillna_origin_data[column]
                 pass
             
-        save_csv_data(res_df, f'{pre_data_root_directory}/{data_path}')
-        save_path = save_mini_data(f'{pre_data_root_directory}/{data_path}', source='pre', target='mini')
+        pre_data_path = f'{pre_data_root_directory}/{data_name}'
 
-        r = update_pre_status(db_id, f'{save_path}', data_path, 1)
+        save_csv_data(res_df, pre_data_path)
+        save_path = save_mini_data(pre_data_path, source='pre', target='mini', db_id=db_id)
+
+
+        pre_data_path = pre_data_path.replace('./', '')
+        r = update_pre_status(db_id, f'{pre_data_path}', data_name, 1)
 
     except Exception as e:
         raise APIException(ex=e)

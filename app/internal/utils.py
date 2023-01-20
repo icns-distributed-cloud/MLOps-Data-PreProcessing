@@ -1,6 +1,7 @@
 from fastapi import BackgroundTasks
 
 from app.models.exceptions import *
+from app.internal.restAPI import *
 
 from scipy.stats import pearsonr
 
@@ -45,18 +46,24 @@ def get_pearsonr(data, columns):
             pearsonr(data[column], data[origin_column])
 
 
-def save_mini_data(filename, source, target, nrows=50):
+def save_mini_data(file_path, source, target, db_id, nrows=50):
     try:
-        path, file = os.path.split(filename)
+        path, file_name = os.path.split(file_path)
         save_path = change_path(path, source, target)
  
-        df = pd.read_csv(filename, nrows=nrows)
+        df = pd.read_csv(file_path, nrows=nrows)
         
 
-        save_csv_data(df, f'{save_path}/{file}')
+        save_csv_data(df, f'{save_path}/{file_name}')
+        mini_path = f'{save_path}/{file_name}'
+
+        mini_path = mini_path.replace('./', '')
+        update_readpre_path(db_id, mini_path)
+
+
     except Exception as e:
         raise APIException(ex=e)
-    return f'{save_path}/{file}'
+    return mini_path
 
 
 def change_path(path, source, target):

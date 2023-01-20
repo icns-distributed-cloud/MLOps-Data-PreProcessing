@@ -21,19 +21,17 @@ router = APIRouter()
 
 @router.post('/preprocessing/data/readpre')
 async def find_missing_value(item: DataIn, request: Request, background_tasks: BackgroundTasks , response_model=Response):
-
-
-    # origin_data_root_directory = request.app.config.origin_data_root_directory
-    pre_data_root_directory = request.app.config.pre_data_root_directory
+    data_root_directory = request.app.config.data_root_directory
     
  
     preDatasetId = item.preDatasetId
     path = item.path
 
+    file_path = f'{data_root_directory}/{path}'
     
 
     try:
-        mini_path = save_mini_data(f'{path}')
+        mini_path = save_mini_data(file_path=file_path, source='origin', target='mini', db_id=preDatasetId)
         response = response_model(status=200, message="미니 데이터셋 생성 완료", data=DataOut(preDatasetId=preDatasetId,
                                                                                             path=mini_path))
         

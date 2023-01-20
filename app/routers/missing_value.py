@@ -20,24 +20,22 @@ router = APIRouter()
 
 @router.post('/preprocessing/missing-value/interpolate')
 async def find_missing_value(item: PreprocessingIn, request: Request, background_tasks: BackgroundTasks, response_model=Response):
-    # origin_data_root_directory = request.app.config.origin_data_root_directory
-    # pre_data_root_directory = request.app.config.pre_data_root_directory
+    data_root_directory = request.app.config.data_root_directory
     
     origin_data_path = item.origin_data_path
     columns = item.columns
     db_id = item.db_id
 
     try: 
-        origin_data = load_csv_data(f'{origin_data_path}')
+        origin_data = load_csv_data(f'{data_root_directory}/{origin_data_path}')
 
         origin_columns = origin_data.columns
         valid_columns(columns, origin_columns)
         
-        path, file = os.path.split(origin_data_path)
-        pre_data_name = f'{db_id}_{file}'
-        # pre_data_path = f'{db_id}_{origin_data_path}'
+        path, file_name = os.path.split(origin_data_path)
+        pre_data_name = f'{db_id}_{file_name}'
 
-        background_tasks.add_task(interpolate, origin_data, columns, path, pre_data_name, db_id)
+        background_tasks.add_task(interpolate, origin_data, columns, f'{data_root_directory}/{path}', pre_data_name, db_id)
 
         response = response_model(status=200, message="전처리 요청 성공", data=PreprocessingOut(origin_data_path=item.origin_data_path,
                                                                                             pre_data_path=f'{path}/{pre_data_name}',
@@ -56,25 +54,22 @@ async def find_missing_value(item: PreprocessingIn, request: Request, background
 
 @router.post('/preprocessing/missing-value/pearson')
 async def find_missing_value(item: PreprocessingIn, request: Request, background_tasks: BackgroundTasks , response_model=Response):
-    origin_data_root_directory = request.app.config.origin_data_root_directory
-    pre_data_root_directory = request.app.config.pre_data_root_directory
+    data_root_directory = request.app.config.data_root_directory
     
     origin_data_path = item.origin_data_path  
     columns = item.columns
     db_id = item.db_id
 
     try:
-        origin_data = load_csv_data(f'{origin_data_path}')
+        origin_data = load_csv_data(f'{data_root_directory}/{origin_data_path}')
 
         origin_columns = origin_data.columns
         valid_columns(columns, origin_columns)
 
-        path, file = os.path.split(origin_data_path)
-        pre_data_name = f'{db_id}_{file}'
-        # pre_data_path = f'{db_id}_{origin_data_path}'
-         
-        # pre_data_path = f'{db_id}_{origin_data_path}'
-        background_tasks.add_task(pearson, origin_data, columns, path, pre_data_name, db_id)
+        path, file_name = os.path.split(origin_data_path)
+        pre_data_name = f'{db_id}_{file_name}'
+
+        background_tasks.add_task(pearson, origin_data, columns, f'{data_root_directory}/{path}', pre_data_name, db_id)
 
         response = response_model(status=200, message="전처리 요청 성공", data=PreprocessingOut(origin_data_path=item.origin_data_path,
                                                                                             pre_data_path=f'{path}/{pre_data_name}',

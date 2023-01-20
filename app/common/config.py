@@ -17,8 +17,8 @@ class Config:
 @dataclass
 class LocalConfig(Config):
     project_reload: bool = True
-    origin_data_root_directory: str = 'data/origin'
-    pre_data_root_directory: str = 'data/pre'
+    data_root_directory: str = '.'
+    pre_data_root_directory: str = '.'
 
     backend_url: str = '163.180.117.186'
     backend_port: int = 18088
@@ -27,8 +27,8 @@ class LocalConfig(Config):
 @dataclass
 class ProdConfig(Config):
     project_reload: bool = False
-    origin_data_root_directory: str = 'data/origin'
-    pre_data_root_directory: str = 'data/pre'
+    data_root_directory: str = '.'
+    pre_data_root_directory: str = '.'
     # origin_data_root_directory: str = 'data.icnslab.net/origin'
     # pre_data_root_directory: str = 'data.icnslab.net/pre'
 
