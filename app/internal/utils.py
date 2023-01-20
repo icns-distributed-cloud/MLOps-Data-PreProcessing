@@ -55,9 +55,10 @@ def save_mini_data(file_path, source, target, db_id, nrows=50, is_origin=False):
         
         if is_origin == True:
             save_csv_data(df, f'{save_path}/{db_id}_{file_name}')
+            mini_path = f'{save_path}/{db_id}{file_name}'
         else:
             save_csv_data(df, f'{save_path}/{file_name}')
-        mini_path = f'{save_path}/{file_name}'
+            mini_path = f'{save_path}/{file_name}'
 
         mini_path = mini_path.replace('./', '')
         update_readpre_path(db_id, mini_path)
