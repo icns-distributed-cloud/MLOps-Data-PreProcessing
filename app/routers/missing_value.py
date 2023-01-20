@@ -74,7 +74,7 @@ async def find_missing_value(item: PreprocessingIn, request: Request, background
         # pre_data_path = f'{db_id}_{origin_data_path}'
          
         # pre_data_path = f'{db_id}_{origin_data_path}'
-        background_tasks.add_task(pearson, origin_data, columns, path, pre_data_name)
+        background_tasks.add_task(pearson, origin_data, columns, path, pre_data_name, db_id)
 
         response = response_model(status=200, message="전처리 요청 성공", data=PreprocessingOut(origin_data_path=item.origin_data_path,
                                                                                             pre_data_path=f'{path}/{pre_data_name}',

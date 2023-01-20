@@ -43,7 +43,7 @@ def interpolate(data, columns, pre_data_root_directory, data_path, db_id):
 
 
 
-def pearson(data, columns, pre_data_root_directory, data_path):
+def pearson(data, columns, pre_data_root_directory, data_path, db_id):
     try:
   
         ar = 10
@@ -119,6 +119,9 @@ def pearson(data, columns, pre_data_root_directory, data_path):
                 pass
             
         save_csv_data(res_df, f'{pre_data_root_directory}/{data_path}')
+        save_mini_data(f'{pre_data_root_directory}/{data_path}')
+
+        r = update_pre_status(db_id, f'{pre_data_root_directory}/{data_path}', data_path, 1)
 
     except Exception as e:
         raise APIException(ex=e)
