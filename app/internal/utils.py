@@ -48,7 +48,7 @@ def get_pearsonr(data, columns):
 def save_mini_data(filename, nrows=50):
     try:
         path, file = os.path.split(filename)
-        mini_path = change_path(path, 'pre', 'mini')
+        mini_path = change_path(path, 'origin', 'mini')
  
         df = pd.read_csv(filename, nrows=nrows)
         
