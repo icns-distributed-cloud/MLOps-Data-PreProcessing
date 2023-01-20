@@ -33,9 +33,9 @@ async def find_missing_value(item: DataIn, request: Request, background_tasks: B
     
 
     try:
-        save_mini_data(f'{path}')
+        mini_path = save_mini_data(f'{path}')
         response = response_model(status=200, message="미니 데이터셋 생성 완료", data=DataOut(preDatasetId=preDatasetId,
-                                                                                            path=path))
+                                                                                            path=mini_path))
         
     except Exception as e:
         print(e)

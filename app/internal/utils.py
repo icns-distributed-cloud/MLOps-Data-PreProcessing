@@ -52,10 +52,11 @@ def save_mini_data(filename, nrows=50):
  
         df = pd.read_csv(filename, nrows=nrows)
         
+        
         save_csv_data(df, f'{mini_path}/{file}')
     except Exception as e:
         raise APIException(ex=e)
-    return df
+    return f'{mini_path}/{file}'
 
 
 def change_path(path, source, target):
