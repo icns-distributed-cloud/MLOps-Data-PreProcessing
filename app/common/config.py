@@ -23,6 +23,8 @@ class LocalConfig(Config):
     backend_url: str = '163.180.117.186'
     backend_port: int = 18088
 
+    kafka_brokers = ['163.180.117.58:9092']
+    kafka_context_renewal_topic = 'test_prediction_model_renewal'
 
 @dataclass
 class ProdConfig(Config):

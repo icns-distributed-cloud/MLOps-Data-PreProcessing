@@ -6,7 +6,10 @@ from app.models.exceptions import *
 
 def load_csv_data(filename):
     try:
-        df = pd.read_csv(filename, encoding='gbk')
+        try:
+            df = pd.read_csv(filename, encoding='gbk')
+        except:
+            df = pd.read_csv(filename, encoding='utf-8')
     except FileNotFoundError as e:
         raise NotFoundDataEx(ex=e)
     except Exception as e:

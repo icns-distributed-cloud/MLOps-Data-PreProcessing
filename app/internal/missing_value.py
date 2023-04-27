@@ -23,22 +23,30 @@ def interpolate(data, columns, pre_data_root_directory, data_name, db_id):
             processed_columns.append(origin_column)
             origin_column_data = data[origin_column]
 
+            processed_column_data = origin_column_data.interpolate(method='values', limit_direction='both')
+            processed_data[origin_column] = processed_column_data
+
+            '''
             if origin_column in columns:
                 processed_column_data = origin_column_data.interpolate(method='values', limit_direction='both')
                 processed_data[origin_column] = processed_column_data
             else:
                 processed_data[origin_column] = origin_column_data
+            '''
+
+
 
         df = pd.DataFrame(processed_data, columns=processed_columns)
 
         pre_data_path = f'{pre_data_root_directory}/{data_name}'
 
-        save_csv_data(df, pre_data_path)
-        save_path = save_mini_data(pre_data_path, source='pre', target='mini', db_id=db_id)
+        # save_csv_data(df, pre_data_path)
+        save_csv_data(df, f'datasets/pre/{data_name}')
+        save_path = save_mini_data(f'datasets/pre/{data_name}', source='pre', target='mini', db_id=db_id)
 
         pre_data_path = pre_data_path.replace('./', '')
 
-        r = update_pre_status(db_id, f'{pre_data_path}', data_name, 1)
+        r = update_pre_status(db_id, f'/datasets/pre/{data_name}', data_name, 1)
         
     except Exception as e:
         print(222)
@@ -49,6 +57,51 @@ def interpolate(data, columns, pre_data_root_directory, data_name, db_id):
 
 
 def pearson(data, columns, pre_data_root_directory, data_name, db_id):
+    try:
+
+
+        processed_columns = []
+        processed_data = {}
+
+        origin_columns = data.columns
+
+        for origin_column in origin_columns:
+            processed_columns.append(origin_column)
+            origin_column_data = data[origin_column]
+
+            processed_column_data = origin_column_data.interpolate(method='values', limit_direction='both')
+            processed_data[origin_column] = processed_column_data
+
+            '''
+            if origin_column in columns:
+                processed_column_data = origin_column_data.interpolate(method='values', limit_direction='both')
+                processed_data[origin_column] = processed_column_data
+            else:
+                processed_data[origin_column] = origin_column_data
+            '''
+
+
+
+        df = pd.DataFrame(processed_data, columns=processed_columns)
+
+        pre_data_path = f'{pre_data_root_directory}/{data_name}'
+
+        # save_csv_data(df, pre_data_path)
+        save_csv_data(df, f'datasets/pre/{data_name}')
+        save_path = save_mini_data(f'datasets/pre/{data_name}', source='pre', target='mini', db_id=db_id)
+
+        pre_data_path = pre_data_path.replace('./', '')
+
+        r = update_pre_status(db_id, f'/datasets/pre/{data_name}', data_name, 1)
+        
+    except Exception as e:
+        print(222)
+        raise e
+
+    return df, True
+
+    
+    '''
     try:
   
         ar = 10
@@ -136,3 +189,4 @@ def pearson(data, columns, pre_data_root_directory, data_name, db_id):
         raise APIException(ex=e)
 
     return True
+    '''

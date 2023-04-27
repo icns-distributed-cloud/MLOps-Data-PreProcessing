@@ -42,6 +42,5 @@ class NotFoundColumnEx(APIException):
 
 async def exception_handler(error: APIException):
     if not isinstance(error, APIException):
-        print('sdsd')
         error = APIException(ex=error, message=str(error))
     return error
