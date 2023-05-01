@@ -20,11 +20,11 @@ class LocalConfig(Config):
     data_root_directory: str = '.'
     pre_data_root_directory: str = '.'
 
-    backend_url: str = '163.180.117.186'
-    backend_port: int = 18088
+    # backend_url: str = '163.180.117.186'
+    # backend_port: int = 18088
 
-    kafka_brokers = ['163.180.117.58:9092']
-    kafka_context_renewal_topic = 'test_prediction_model_renewal'
+    kafka_brokers = ['115.90.76.67:9092']
+    kafka_context_renewal_topic = 'prediction_model_renewal'
 
 @dataclass
 class ProdConfig(Config):
@@ -34,8 +34,8 @@ class ProdConfig(Config):
     # origin_data_root_directory: str = 'data.icnslab.net/origin'
     # pre_data_root_directory: str = 'data.icnslab.net/pre'
 
-    backend_url: str = '163.180.117.186'
-    backend_port: int = 18088
+    # backend_url: str = '163.180.117.186'
+    # backend_port: int = 18088
 
 
 def conf():
